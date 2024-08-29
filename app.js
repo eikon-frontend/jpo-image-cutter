@@ -43,6 +43,10 @@ const extract = async (file) => {
   await image
     .extract({ left, top, width, height })
     .toFile(`extracts/${fileName}`);
+
+  console.log(
+    `✅ Extrait de images/${file} enregistré dans extracts/${fileName}`
+  );
 };
 
 // On récupère la liste des fichiers dans le dossier images
