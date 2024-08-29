@@ -37,7 +37,8 @@ const extract = async (file) => {
   // On compte le nombre de fichiers dans le dossier extracts pour définir le nom du fichier
   const extractFiles = await readdir("extracts");
   const extension = file.split(".").pop();
-  const fileName = extractFiles.length + 1 + "." + extension;
+  const fileName =
+    `${extractFiles.length + 1}`.padStart(4, "0") + "." + extension;
 
   // On extrait la partie de l'image et on l'enregistre dans le dossier extracts
   await image
