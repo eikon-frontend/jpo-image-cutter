@@ -3,20 +3,36 @@ import { readdir } from "fs/promises";
 
 // Formats acceptés
 const formats = ["jpg", "jpeg", "png", "gif"];
+// Largeur minimum de l'extrait
+const minWidth = 50;
+// Largeur maximum de l'extrait
+const maxWidth = 300;
+// Hauteur minimum de l'extrait
+const minHeight = 50;
+// Hauteur maximum de l'extrait
+const maxHeight = 300;
 
 // Fonction d'extraction d'une partie de l'image
 const extract = async (file) => {
   const input = await sharp(`images/${file}`).toBuffer();
   const image = sharp(input);
   const metadata = await image.metadata();
-  const { width, height } = metadata;
 
-  const left = parseInt(Math.random() * (width - 50));
-  const top = parseInt(Math.random() * (height - 50));
+  // Si l'image est plus petite que maxWidth et maxHeight, on ne l'extrait pas
+  if (metadata.width < maxWidth || metadata.height < maxHeight) {
+    return;
+  }
 
-  await image
-    .extract({ left, top, width: 50, height: 50 })
-    .toFile(`extracts/${file}`);
+  // On définit une largeur aléatoire entre minWidth et maxWidth
+  const width = parseInt(Math.random() * (maxWidth - minWidth) + minWidth);
+  // On définit une hauteur aléatoire entre minHeight et maxHeight
+  const height = parseInt(Math.random() * (maxHeight - minHeight) + minHeight);
+  // On définit un point de départ aléatoire en x
+  const left = parseInt(Math.random() * (metadata.width - width));
+  // On définit un point de départ aléatoire en y
+  const top = parseInt(Math.random() * (metadata.height - height));
+
+  await image.extract({ left, top, width, height }).toFile(`extracts/${file}`);
 };
 
 const files = await readdir("images");
