@@ -11,6 +11,8 @@ const maxWidth = 300;
 const minHeight = 50;
 // Hauteur maximum de l'extrait
 const maxHeight = 300;
+// Nombre d'extraits par image
+const extractsPerImage = 5;
 
 // Fonction d'extraction d'une partie de l'image
 const extract = async (file) => {
@@ -37,7 +39,7 @@ const extract = async (file) => {
   const extension = file.split(".").pop();
   const fileName = extractFiles.length + 1 + "." + extension;
 
-  // On extrait la partie de l'image
+  // On extrait la partie de l'image et on l'enregistre dans le dossier extracts
   await image
     .extract({ left, top, width, height })
     .toFile(`extracts/${fileName}`);
@@ -52,7 +54,9 @@ const filteredFiles = files.filter((file) => {
   return formats.includes(extension);
 });
 
-// On extrait une partie de chaque image
 for await (const file of filteredFiles) {
-  await extract(file);
+  // On extrait lance la fonction extract autant de fois que défini dans extractsPerImage
+  for (let i = 0; i < extractsPerImage; i++) {
+    await extract(file);
+  }
 }
