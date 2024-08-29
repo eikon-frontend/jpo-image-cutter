@@ -9,7 +9,7 @@ cd Documents
 2. Cloner le repository git :
 
 ```bash
-git clone git@github.com:eikon-frontend/jpo-image-cutter.git
+git clone https://github.com/eikon-frontend/jpo-image-cutter.git
 ```
 
 3. Ouvrir le dossier _jpo-image-cutter_ avec Visual Studio Code, ouvrir un terminal dans Visual Studio Code, puis entrer la commande :
