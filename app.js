@@ -32,9 +32,18 @@ const extract = async (file) => {
   // On définit un point de départ aléatoire en y
   const top = parseInt(Math.random() * (metadata.height - height));
 
-  await image.extract({ left, top, width, height }).toFile(`extracts/${file}`);
+  // On compte le nombre de fichiers dans le dossier extracts pour définir le nom du fichier
+  const extractFiles = await readdir("extracts");
+  const extension = file.split(".").pop();
+  const fileName = extractFiles.length + 1 + "." + extension;
+
+  // On extrait la partie de l'image
+  await image
+    .extract({ left, top, width, height })
+    .toFile(`extracts/${fileName}`);
 };
 
+// On récupère la liste des fichiers dans le dossier images
 const files = await readdir("images");
 
 // On filtre la liste des fichiers pour ne garder que les formats acceptés
@@ -43,6 +52,7 @@ const filteredFiles = files.filter((file) => {
   return formats.includes(extension);
 });
 
+// On extrait une partie de chaque image
 for await (const file of filteredFiles) {
   await extract(file);
 }
