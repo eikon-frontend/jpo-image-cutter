@@ -14,6 +14,10 @@ const maxHeight = 300;
 // Nombre d'extraits par image
 const extractsPerImage = 5;
 
+const randomBetween = (min, max) => {
+  return parseInt(Math.random() * (max - min) + min);
+};
+
 // Fonction d'extraction d'une partie de l'image
 const extract = async (file) => {
   const input = await sharp(`images/${file}`).toBuffer();
@@ -26,13 +30,13 @@ const extract = async (file) => {
   }
 
   // On définit une largeur aléatoire entre minWidth et maxWidth
-  const width = parseInt(Math.random() * (maxWidth - minWidth) + minWidth);
+  const width = randomBetween(minWidth, maxWidth);
   // On définit une hauteur aléatoire entre minHeight et maxHeight
-  const height = parseInt(Math.random() * (maxHeight - minHeight) + minHeight);
+  const height = randomBetween(minHeight, maxHeight);
   // On définit un point de départ aléatoire en x
-  const left = parseInt(Math.random() * (metadata.width - width));
+  const left = randomBetween(0, metadata.width - width);
   // On définit un point de départ aléatoire en y
-  const top = parseInt(Math.random() * (metadata.height - height));
+  const top = randomBetween(0, metadata.height - height);
 
   // On compte le nombre de fichiers dans le dossier extracts pour définir le nom du fichier
   const extractFiles = await readdir("extracts");
