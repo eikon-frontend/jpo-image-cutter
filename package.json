@@ -1,0 +1,11 @@
+{
+  "name": "jpo-image-cutter",
+  "version": "1.0.0",
+  "description": "Découpe aléatoirement des formes dans des images",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "eikon",
+  "license": "ISC"
+}
