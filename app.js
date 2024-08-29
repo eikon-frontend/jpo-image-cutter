@@ -1,5 +1,5 @@
-import fs from "fs";
 import sharp from "sharp";
+import { readdir } from "fs/promises";
 
 // Formats acceptés
 const formats = ["jpg", "jpeg", "png", "gif"];
@@ -18,19 +18,14 @@ const extract = async (file) => {
     .toFile(`extracts/${file}`);
 };
 
-fs.readdir("images", (err, files) => {
-  if (err) {
-    console.error("Impossible de lire le dossier images");
-    return;
-  }
+const files = await readdir("images");
 
-  // On filtre la liste des fichiers pour ne garder que les formats acceptés
-  files = files.filter((file) => {
-    const extension = file.split(".").pop();
-    return formats.includes(extension);
-  });
-
-  files.forEach((file) => {
-    extract(file);
-  });
+// On filtre la liste des fichiers pour ne garder que les formats acceptés
+const filteredFiles = files.filter((file) => {
+  const extension = file.split(".").pop();
+  return formats.includes(extension);
 });
+
+for await (const file of filteredFiles) {
+  await extract(file);
+}
