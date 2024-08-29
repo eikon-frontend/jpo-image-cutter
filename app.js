@@ -7,14 +7,15 @@ const formats = ["jpg", "jpeg", "png", "gif"];
 // Fonction d'extraction d'une partie de l'image
 const extract = async (file) => {
   const input = await sharp(`images/${file}`).toBuffer();
+  const image = sharp(input);
+  const metadata = await image.metadata();
+  const { width, height } = metadata;
 
-  await sharp(input)
-    .extract({
-      left: 0,
-      top: 0,
-      width: 50,
-      height: 50,
-    })
+  const left = parseInt(Math.random() * (width - 50));
+  const top = parseInt(Math.random() * (height - 50));
+
+  await image
+    .extract({ left, top, width: 50, height: 50 })
     .toFile(`extracts/${file}`);
 };
 
