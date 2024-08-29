@@ -7,5 +7,6 @@
     "start": "node app.js"
   },
   "author": "eikon",
-  "license": "ISC"
+  "license": "ISC",
+  "type": "module"
 }
